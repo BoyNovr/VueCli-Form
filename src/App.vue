@@ -1,7 +1,9 @@
 <template>
   <app-header></app-header>
   <div class="container">
-    <compContact></compContact>
+    <!-- <compContact></compContact> -->
+    <compValidate></compValidate>
+
   </div>
   <app-footer></app-footer>
 
@@ -9,11 +11,13 @@
 </template>
 
 <script>
-import compContact from './components/contact/index.vue'
-
+// import compContact from './components/contact/index.vue' custom validate
+// vee validate
+import compValidate from './components/validate/index.vue'
 export default{
   components:{
-   compContact
+  //  compContact
+  compValidate
   }
 }
 </script>

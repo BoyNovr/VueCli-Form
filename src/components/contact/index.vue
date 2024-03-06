@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <form @submit="checkForm($event)">
         <div class="row">
             <div class="col-xl-12">
                 <h1>Contact Person</h1>
@@ -93,13 +93,21 @@
 
                 </div>
                 <hr>
-                <button class="btn btn-primary" 
-                @click.prevent="submitForm">
+                <button class="btn btn-primary">
                     Submit
                 </button> |
                 <button class="btn btn-primary" 
                 @click.prevent="getData">Get Data</button>
             </div>
+        </div>
+        <br>
+        <div v-if="this.error.length">
+            <h3>Please Correct this error below!</h3>
+            <ul>
+                <li v-for="(err, index) in error" :key="index">
+                {{ err }}
+                </li>
+            </ul>
         </div>
     </form>
 </template>
@@ -107,6 +115,7 @@
 export default{
     data(){
         return {
+            error:[],
             formData:{
             name:'',
             email:'',
@@ -126,8 +135,25 @@ export default{
         }
     },
     methods:{
+        checkForm(event){
+            event.preventDefault();
+            this.error=[];
+            if(!this.formData.name){
+                this.error.push('Name is required !')
+            }
+            if(!this.formData.email){
+                this.error.push('Email is required !')
+            }else if (!this.validEmail(this.formData.email)) {
+                this.error.push('Email is not valid!');
+            }
+            console.log(this.error)
+            if(this.error.length===0){
+                this.submitForm()
+            }
+        },
         submitForm(){
             console.log(this.formData)
+            console.log(this.formData.email)
         },
         getData(){
             this.formData.name='Boy Novriyal'
@@ -135,7 +161,13 @@ export default{
             this.formData.subject='Self Motivation'
             this.formData.message='Hello World!! \ndont give up!! \nkeep strong and believe yourself'
             this.formData.gender='male'
+            this.formData.country='Indonesia'
+        },
+        validEmail(email){
+            const re=/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+            return re.test(email)
         }
+
     }
 }
 </script>
